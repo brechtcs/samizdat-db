@@ -95,7 +95,7 @@ Samizdat.prototype.docs = function (cb) {
   }).on('error', cb)
 }
 
-Samizdat.prototype.versions = function (doc, cb) {
+Samizdat.prototype.history = function (doc, cb) {
   assert.equal(typeof doc, 'string' || 'number', 'Document ID must be a string or number')
   assert.equal(typeof cb, 'function', 'Versions query callback must be a function')
 
