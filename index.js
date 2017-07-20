@@ -1,5 +1,5 @@
 var assert = require('assert')
-var keyUtil = require('./key')
+var ts = require('samizdat-ts')
 
 function Samizdat (level) {
   if (!(this instanceof Samizdat)) return new Samizdat(level)
@@ -16,11 +16,11 @@ Samizdat.prototype.create = function (doc, value, cb) {
   assert.equal(typeof doc, 'string' || 'number', 'Document ID must be a string or number')
   assert.equal(typeof cb, 'function', 'Create callback must be a function')
 
-  if (keyUtil.validateKey(doc)) {
+  if (ts.validate(doc)) {
     return cb({invalidId: true})
   }
 
-  var key = keyUtil.newKey(doc)
+  var key = ts.newKey(doc)
   var self = this
 
   self.read(doc, function (err) {
@@ -52,10 +52,10 @@ Samizdat.prototype.read = function (version, cb) {
 Samizdat.prototype.update = function (version, value, cb) {
   assert.equal(typeof cb, 'function', 'Update callback must be a function')
 
-  if (!keyUtil.validateKey(version)) {
+  if (!ts.validate(version)) {
     return cb({invalidKey: true})
   }
-  var update = keyUtil.updateKey(version)
+  var update = ts.updateKey(version)
   var self = this
 
   self._level.put(update, value, function (err) {
@@ -85,7 +85,7 @@ Samizdat.prototype.docs = function (cb) {
   var docs = []
 
   this._level.createKeyStream().on('data', function (key) {
-    var id = keyUtil.getId(key)
+    var id = ts.getId(key)
 
     if (!docs.includes(id)) {
       docs.push(id)
@@ -102,7 +102,7 @@ Samizdat.prototype.versions = function (doc, cb) {
   var versions = []
 
   this._level.createKeyStream().on('data', function (key) {
-    var id = keyUtil.getId(key)
+    var id = ts.getId(key)
     
     if (id === doc && !versions.includes(key)) {
       versions.push(key)

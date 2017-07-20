@@ -1,8 +1,8 @@
 var test = require('tape')
 var levelup = require('levelup')
 var memdown = require('memdown')
-var samizdat = require('../')
-var keyUtil = require('../key')
+var samizdat = require('./')
+var ts = require('samizdat-ts')
 
 var level = levelup(memdown)
 var db = samizdat(level)
@@ -12,7 +12,7 @@ test('create and read new entries', function (t) {
 
   db.create('dit', 'deze', function (err, first) {
     t.notOk(err, 'create first entry')
-    t.ok(keyUtil.validateKey(first.key), 'created entry key is valid')
+    t.ok(ts.validate(first.key), 'created entry key is valid')
 
     db.create('dat', 'die', function (err, second) {
       t.notOk(err, 'create second entry')
@@ -38,15 +38,17 @@ test('create and update entry, read both versions, and run purge job', function 
   })
 
   db.create('some', 'stuff', function (err, data) {
-    db.update(data.key, 'things', function (err, data) {
-      t.notOk(err, 'update entry')
-      t.ok(keyUtil.validateKey(data.key), 'updated entry key is valid')
-      t.ok(keyUtil.validateKey(data.prev), 'previous entry key is valid')
+    setTimeout(function () {
+      db.update(data.key, 'things', function (err, data) {
+        t.notOk(err, 'update entry')
+        t.ok(ts.validate(data.key), 'updated entry key is valid')
+        t.ok(ts.validate(data.prev), 'previous entry key is valid')
 
-      db.read(data.prev, function (err, value) {
-        t.notOk(err, 'read older version of updated entry')
-        t.equal(value, 'stuff', 'requested version returns correctly')
+        db.read(data.prev, function (err, value) {
+          t.notOk(err, 'read older version of updated entry')
+          t.equal(value, 'stuff', 'requested version returns correctly')
+        })
       })
-    })
+    }, 10)
   })
 })
