@@ -91,6 +91,9 @@ Samizdat.prototype.docs = function (cb) {
       docs.push(id)
     }
   }).on('end', function () {
+    if (docs.length === 0) {
+        return cb({notFound: true})
+    }
     cb(null, docs)
   }).on('error', cb)
 }
@@ -108,6 +111,9 @@ Samizdat.prototype.history = function (doc, cb) {
       versions.push(key)
     }
   }).on('end', function () {
+    if (versions.length === 0) {
+        return cb({notFound: true})
+    }
     cb(null, versions)
   }).on('error', cb)
 }
