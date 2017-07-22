@@ -1,7 +1,7 @@
 {
   "name": "samizdat-db",
   "version": "2.1.0",
-  "description": "",
+  "description": "LevelUP wrapper for versioned and syncable storage",
   "main": "index.js",
   "scripts": {
     "test": "tape 'test.js' | tap-spec"
