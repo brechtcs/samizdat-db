@@ -117,3 +117,7 @@ Samizdat.prototype.history = function (doc, cb) {
     cb(null, versions)
   }).on('error', cb)
 }
+
+Samizdat.prototype.stream = function (opts) {
+  return this._level.createReadStream(opts)
+}
