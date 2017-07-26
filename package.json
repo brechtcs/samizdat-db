@@ -1,6 +1,6 @@
 {
   "name": "samizdat-db",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "LevelUP wrapper for versioned and syncable storage",
   "main": "index.js",
   "scripts": {
@@ -17,10 +17,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/distilledpm/samizdat-db.git"
+    "url": "git+https://github.com/pamphlets/samizdat-db.git"
   },
   "bugs": {
-    "url": "https://github.com/distilledpm/samizdat-db/issues"
+    "url": "https://github.com/pamphlets/samizdat-db/issues"
   },
   "author": "Brecht Savelkoul <brecht@distilled.pm>",
   "license": "GPL-3.0"
