@@ -1,4 +1,4 @@
-var spec = require('samizdat/spec')
+var spec = require('samizdat-spec')
 
 var levelup = require('levelup')
 var memdown = require('memdown')
