@@ -1,4 +1,6 @@
 var assert = require('assert')
+var level = require('pull-level')
+var pull = require('pull-stream')
 var ts = require('samizdat-ts')
 
 function Samizdat (level) {
@@ -118,6 +120,26 @@ Samizdat.prototype.history = function (doc, cb) {
   }).on('error', cb)
 }
 
-Samizdat.prototype.stream = function (opts) {
-  return this._level.createReadStream(opts)
+/**
+ * Pull streams
+ */
+Samizdat.prototype.source = function (opts) {
+  return level.read(this._level, opts)
+}
+
+Samizdat.prototype.sink = function (opts, cb) {
+  if (typeof opts === 'function') {
+    cb = opts, opts = null
+  }
+  assert.equal(typeof cb, 'function', 'Stream sink callback must be a function')
+
+  return pull(
+    pull.map(function (entry) {
+      if (!ts.validate(entry.key)) {
+        return cb({invalidKey: true})
+      }
+      return entry
+    }),
+    level.write(this._level, opts, cb)
+  )
 }
