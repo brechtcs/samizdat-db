@@ -1,6 +1,6 @@
 {
   "name": "samizdat-db",
-  "version": "3.0.3",
+  "version": "3.1.0",
   "description": "LevelUP wrapper for versioned and syncable storage",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,7 @@
   "dependencies": {
     "pull-level": "^2.0.3",
     "pull-stream": "^3.6.0",
-    "samizdat-spec": "^1.0.0",
+    "samizdat-spec": "^1.1.3",
     "samizdat-ts": "^1.0.3"
   },
   "devDependencies": {

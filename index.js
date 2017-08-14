@@ -120,6 +120,33 @@ Samizdat.prototype.history = function (doc, cb) {
   }).on('error', cb)
 }
 
+Samizdat.prototype.latest = function (doc, cb) {
+  assert.equal(typeof cb, 'function', 'Latest query callback must be a function')
+
+  var self = this
+  var stream = self._level.createKeyStream({
+    reverse: true
+  })
+
+  stream.on('data', function (key) {
+    if (doc === ts.getId(key)) {
+      self._level.get(key, function (err, value) {
+        if (err) {
+          return cb(err)
+        }
+        stream.destroy()
+
+        cb(null, {
+          key: key,
+          value: value
+        })
+      })
+    }
+  }).on('end', function () {
+    cb({notFound: true})
+  }).on('error', cb)
+}
+
 /**
  * Pull streams
  */
