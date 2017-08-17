@@ -1,6 +1,6 @@
 {
   "name": "samizdat-db",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "LevelUP wrapper for versioned and syncable storage",
   "main": "index.js",
   "scripts": {

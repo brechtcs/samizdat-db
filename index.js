@@ -130,11 +130,12 @@ Samizdat.prototype.latest = function (doc, cb) {
 
   stream.on('data', function (key) {
     if (doc === ts.getId(key)) {
+      stream.destroy()
+
       self._level.get(key, function (err, value) {
         if (err) {
           return cb(err)
         }
-        stream.destroy()
 
         cb(null, {
           key: key,
